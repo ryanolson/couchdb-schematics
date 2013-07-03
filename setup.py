@@ -1,0 +1,35 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from setuptools import setup
+#from schematics import __version__
+
+test_requirements=[
+    'pytest'
+]
+
+setup(
+    name='couchdb-schematics',
+    license='BSD',
+#   version=__version__,
+    description='',
+    author=u'',
+    author_email='',
+    url='http://github.com/ryanolson/couchdb-schematics',
+    packages=['couchdb_schematics'],
+    classifiers=[
+        'Environment :: Other Environment',
+        'Intended Audience :: Developers',
+        'License :: Other/Proprietary License',
+        'Operating System :: POSIX',
+        'Programming Language :: Python',
+    ],
+    tests_require=test_requirements,
+    install_requires=[
+        'CouchDB',
+        'schematics',
+    ] + test_requirements,
+    dependency_links = [
+        'https://github.com/j2labs/schematics/tarball/master#egg=schematics'
+    ]
+)
