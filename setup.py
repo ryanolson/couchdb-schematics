@@ -26,10 +26,11 @@ setup(
     ],
     tests_require=test_requirements,
     install_requires=[
-        'CouchDB',
+        'setuptools>=0.8',
         'schematics',
+        'CouchDB'
     ] + test_requirements,
     dependency_links = [
-        'https://github.com/j2labs/schematics/tarball/master#egg=schematics'
+        'https://github.com/ryanolson/schematics/tarball/master#egg=schematics'
     ]
 )
