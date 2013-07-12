@@ -14,6 +14,9 @@ class DocumentMeta(ModelMeta):
 class SchematicsDocument(Model):
     __metaclass__ = DocumentMeta
 
+    class Options:
+        serialize_when_none = False
+
     _id = StringType()
     _rev = StringType()
     doc_type = StringType()
@@ -42,8 +45,8 @@ class SchematicsDocument(Model):
 
     def serialize(self,**kwargs):
         retval = super(SchematicsDocument,self).serialize(**kwargs)
-        if self.id is None: del retval['_id']
-        if self.rev is None: del retval['_rev']
+        if self.id is None and '_id' in retval: del retval['_id']
+        if self.rev is None and '_rev' in retval: del retval['_rev']
         return retval
 
     @classmethod
