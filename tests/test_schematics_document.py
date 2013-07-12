@@ -5,11 +5,16 @@ from schematics.models import Model
 from schematics.types import StringType, MD5Type
 from couchdb_schematics.document import SchematicsDocument
 
-class User1(SchematicsDocument):
+class User1Model(Model):
     name = StringType()
 
-class User2(User1):
+class User2Model(User1Model):
     _password = MD5Type(serialized_name="password")
+
+class User1(User1Model,SchematicsDocument):
+    pass 
+
+class User2(User2Model,SchematicsDocument):
 
     def __init__(self, id=None, **kwargs):
         super(User2, self).__init__(id, **kwargs)
