@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup
-#from schematics import __version__
+from couchdb_schematics import __version__
 
 test_requirements=[
     'pytest'
@@ -11,7 +11,7 @@ test_requirements=[
 setup(
     name='couchdb-schematics',
     license='BSD',
-#   version=__version__,
+    version=__version__,
     description='',
     author=u'',
     author_email='',
