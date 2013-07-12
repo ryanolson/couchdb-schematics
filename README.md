@@ -1,6 +1,7 @@
 # CouchDB + Schematics
 
 Python Structured CouchDB Documents for Humans
+
 [![Build Status](https://travis-ci.org/ryanolson/couchdb-schematics.png)](https://travis-ci.org/ryanolson/couchdb-schematics)
 
 ## Here it is!!
