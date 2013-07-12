@@ -1,14 +1,25 @@
 import json
-from schematics.models import Model
+import couchdb.mapping
+from schematics.models import Model, ModelMeta
 from schematics.types import StringType
 
-class SchematicDocument(Model):
+class DocumentMeta(ModelMeta):
+    def __new__(cls, name, bases, d):
+        for attrname, attrval in d.items():
+            if isinstance(attrval, couchdb.mapping.ViewField):
+                if not attrval.name:
+                    attrval.name = attrname
+        return ModelMeta.__new__(cls, name, bases, d)
+
+class SchematicsDocument(Model):
+    __metaclass__ = DocumentMeta
+
     _id = StringType()
     _rev = StringType()
     doc_type = StringType()
 
     def __init__(self, id=None, **kwargs):
-        super(SchematicDocument, self).__init__(raw_data=kwargs)
+        super(SchematicsDocument, self).__init__(raw_data=kwargs)
         if id:
            self.id = id
         self.doc_type = self.__class__.__name__
@@ -30,7 +41,7 @@ class SchematicDocument(Model):
         return self._rev
 
     def serialize(self,**kwargs):
-        retval = super(SchematicDocument,self).serialize(**kwargs)
+        retval = super(SchematicsDocument,self).serialize(**kwargs)
         if self.id is None: del retval['_id']
         if self.rev is None: del retval['_rev']
         return retval

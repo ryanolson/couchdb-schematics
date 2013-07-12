@@ -3,9 +3,9 @@ from couchdb.tests import testutil
 
 from schematics.models import Model
 from schematics.types import StringType, MD5Type
-from couchdb_schematics.document import SchematicDocument
+from couchdb_schematics.document import SchematicsDocument
 
-class User1(SchematicDocument):
+class User1(SchematicsDocument):
     name = StringType()
 
 class User2(User1):
