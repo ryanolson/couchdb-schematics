@@ -21,7 +21,8 @@ class SchematicsDocument(Model):
     _rev = StringType()
     doc_type = StringType()
 
-    def __init__(self, id=None, **kwargs):
+    def __init__(self, **kwargs):
+        id = kwargs.pop('id', None)
         super(SchematicsDocument, self).__init__(raw_data=kwargs)
         if id:
            self.id = id

@@ -16,8 +16,8 @@ class User1(User1Model,SchematicsDocument):
 
 class User2(User2Model,SchematicsDocument):
 
-    def __init__(self, id=None, **kwargs):
-        super(User2, self).__init__(id, **kwargs)
+    def __init__(self, **kwargs):
+        super(User2, self).__init__(**kwargs)
         if 'password' in kwargs and '_rev' not in kwargs:
            self.password = kwargs['password']
 
