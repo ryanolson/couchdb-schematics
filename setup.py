@@ -25,7 +25,6 @@ setup(
     ],
     tests_require=test_requirements,
     install_requires=[
-        'setuptools>=0.8',
         'schematics>=0.8.0-alpha',
         'CouchDB'
     ] + test_requirements,
