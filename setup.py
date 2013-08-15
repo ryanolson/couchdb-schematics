@@ -26,10 +26,10 @@ setup(
     tests_require=test_requirements,
     install_requires=[
         'setuptools>=0.8',
-        'schematics>=0.8.0-alpha',
+        'schematics>=0.9.1-alpha',
         'CouchDB'
     ] + test_requirements,
     dependency_links = [
-        'https://github.com/ryanolson/schematics/tarball/master#egg=schematics-0.8.0-alpha'
+        'https://github.com/ryanolson/schematics/tarball/master#egg=schematics-0.9.1-alpha'
     ]
 )
