@@ -128,6 +128,7 @@ class TestSchematicDocument(testutil.TempDatabaseMixin, unittest.TestCase):
 
         su_native = su.to_native()
         assert 'user' in su_native
+        assert 'doc_id' not in su_native
         assert 'doc_id' in su_native['user']
         assert '_id' not in su_native['user']
         assert '_rev' not in su_native['user']

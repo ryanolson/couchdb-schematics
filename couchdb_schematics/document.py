@@ -6,14 +6,17 @@ from schematics.types import StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
-
-class EmbeddedDocType(ModelType):
+class EmbeddedModelType(ModelType):
     def export_loop(self, model_instance, field_converter,
                     role=None, print_none=False):
         if role is None:
             role = "embedded"
-        return super(EmbeddedDocType, self).export_loop(model_instance,
+        return super(EmbeddedModelType, self).export_loop(model_instance,
             field_converter, role=role, print_none=print_none)
+
+
+class EmbeddedDocType(EmbeddedModelType):
+    pass
 
 
 class DocumentMeta(ModelMeta):
@@ -31,6 +34,7 @@ class SchematicsDocument(Model):
     class Options:
         serialize_when_none = False
         roles = {
+            "default": blacklist("doc_id"),
             "embedded": blacklist("_id", "_rev", "doc_type"),
         }
 
