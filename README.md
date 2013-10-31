@@ -22,7 +22,7 @@ and mix in a SchematicsDocument
 ```python
 from couchdb_schematics.document import SchematicsDocument
 
-class UserDocument(User, SchematicsDocument):
+class UserDocument(SchematicsDocument, User):
    pass
 ```
 
@@ -48,8 +48,7 @@ if 'test' not in server:
 db = server['test']
 
 # both forms of initialization are equivalent
-user = UserDocument(name='Ryan', email='thedude@gmail.com')
-user = UserDocument(**dict(name='Ryan', email='thedude@gmail.com'))
+user = UserDocument(dict(name='Ryan', email='thedude@gmail.com'))
 
 user.store(db)
 

@@ -1,7 +1,20 @@
 import json
 import couchdb.mapping
 from schematics.models import Model, ModelMeta
+from schematics.transforms import blacklist
 from schematics.types import StringType
+from schematics.types.compound import ModelType
+from schematics.types.serializable import serializable
+
+
+class EmbeddedDocType(ModelType):
+    def export_loop(self, model_instance, field_converter,
+                    role=None, print_none=False):
+        if role is None:
+            role = "embedded"
+        return super(EmbeddedDocType, self).export_loop(model_instance,
+            field_converter, role=role, print_none=print_none)
+
 
 class DocumentMeta(ModelMeta):
     def __new__(cls, name, bases, d):
@@ -11,19 +24,26 @@ class DocumentMeta(ModelMeta):
                     attrval.name = attrname
         return ModelMeta.__new__(cls, name, bases, d)
 
+
 class SchematicsDocument(Model):
     __metaclass__ = DocumentMeta
 
     class Options:
         serialize_when_none = False
+        roles = {
+            "embedded": blacklist("_id", "_rev", "doc_type"),
+        }
 
     _id = StringType()
     _rev = StringType()
     doc_type = StringType()
 
-    def __init__(self, **kwargs):
-        id = kwargs.pop('id', None)
-        super(SchematicsDocument, self).__init__(raw_data=kwargs)
+    def __init__(self, raw_data=None, deserialize_mapping=None):
+        if raw_data is None:
+            raw_data = { }
+        id = raw_data.pop('id', None)
+        super(SchematicsDocument, self).__init__(raw_data=raw_data,
+            deserialize_mapping=deserialize_mapping)
         if id:
            self.id = id
         self.doc_type = self.__class__.__name__
@@ -40,6 +60,10 @@ class SchematicsDocument(Model):
         self._id = value
     id = property(_get_id, _set_id, doc='The document ID')
 
+    @serializable(role="embedded")
+    def id(self):
+        return self._id
+
     @property
     def rev(self):
         return self._rev
@@ -52,8 +76,7 @@ class SchematicsDocument(Model):
 
     @classmethod
     def wrap(cls, data):
-        instance = cls(**data)
-        instance.validate(data)
+        instance = cls(data)
         return instance
 
     @classmethod
