@@ -121,7 +121,8 @@ class TestSchematicDocument(testutil.TempDatabaseMixin, unittest.TestCase):
 
         su = SuperUser()
         su.user = u
-        assert isinstance(su.user, User2)
+        su.store(self.db)
+        assert isinstance(su.user, User3)
 
         print su.user.Options.roles
         assert '_password' in su.user.Options.roles['embedded']
@@ -135,3 +136,15 @@ class TestSchematicDocument(testutil.TempDatabaseMixin, unittest.TestCase):
         assert 'doc_type' not in su_native['user']
         assert 'password' not in su_native['user']
 
+        fromdb = SuperUser.load(self.db, su.id)
+        su_native = fromdb.to_native()
+        assert 'user' in su_native
+        assert 'doc_id' not in su_native
+        assert 'doc_id' in su_native['user']
+        assert '_id' not in su_native['user']
+        assert '_rev' not in su_native['user']
+        assert 'doc_type' not in su_native['user']
+        assert 'password' not in su_native['user']
+
+        fromdb.user.reload(self.db)
+        assert fromdb.user.password == su.user.password

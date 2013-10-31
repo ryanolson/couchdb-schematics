@@ -101,9 +101,18 @@ class SchematicsDocument(Model):
         """Store the document in the given database."""
         if validate:
            self.validate()
-        id, rev = db.save(self.serialize())
-        self._id = id
-        self._rev = rev
+        self._id, self._rev = db.save(self.to_native())
+        return self
+
+    def reload(self, db):
+        """
+        This function reloads/rehydrates the Document Model.  This
+        is especially useful for embedded documents that are stored
+        in a dehydrated state.
+        """
+        if self.id is None:
+            raise ValueError("_id/id property is None")
+        self.import_data(db.get(self.id))
         return self
 
 # functions below this point have not been tested
