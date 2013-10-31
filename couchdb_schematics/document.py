@@ -1,7 +1,7 @@
 import json
 import couchdb.mapping
 from schematics.models import Model, ModelMeta
-from schematics.transforms import blacklist
+from schematics.transforms import blacklist, whitelist
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
@@ -34,7 +34,7 @@ class SchematicsDocument(Model):
             "embedded": blacklist("_id", "_rev", "doc_type"),
         }
 
-    _id = StringType()
+    _id = StringType(deserialize_from=['id', 'doc_id'])
     _rev = StringType()
     doc_type = StringType()
 
@@ -61,7 +61,7 @@ class SchematicsDocument(Model):
     id = property(_get_id, _set_id, doc='The document ID')
 
     @serializable(role="embedded")
-    def id(self):
+    def doc_id(self):
         return self._id
 
     @property

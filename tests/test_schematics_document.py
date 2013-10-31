@@ -99,7 +99,7 @@ class TestSchematicDocument(testutil.TempDatabaseMixin, unittest.TestCase):
 
         su_native = su.to_native()
         assert 'user' in su_native
-        assert 'id' in su_native['user']
+        assert 'doc_id' in su_native['user']
         assert '_id' not in su_native['user']
         assert '_rev' not in su_native['user']
         assert 'doc_type' not in su_native['user']
@@ -116,6 +116,7 @@ class TestSchematicDocument(testutil.TempDatabaseMixin, unittest.TestCase):
             user = EmbeddedDocType(User3)
 
         u = User3(dict(name="Ryan", password="ChangeMe"))
+        assert 'id' not in u.serialize()
         u.store(self.db)
 
         su = SuperUser()
@@ -123,11 +124,13 @@ class TestSchematicDocument(testutil.TempDatabaseMixin, unittest.TestCase):
         assert isinstance(su.user, User2)
 
         print su.user.Options.roles
+        assert '_password' in su.user.Options.roles['embedded']
 
         su_native = su.to_native()
         assert 'user' in su_native
-        assert 'id' in su_native['user']
+        assert 'doc_id' in su_native['user']
         assert '_id' not in su_native['user']
         assert '_rev' not in su_native['user']
         assert 'doc_type' not in su_native['user']
         assert 'password' not in su_native['user']
+
