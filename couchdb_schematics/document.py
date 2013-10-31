@@ -115,6 +115,15 @@ class SchematicsDocument(Model):
         self.import_data(db.get(self.id))
         return self
 
+    def hydrate(self, db, recursive=True):
+        for field in self._fields:
+            obj = getattr(self, field)
+            if isinstance(obj, SchematicsDocument):
+                obj.reload(db)
+                if recursive:
+                    obj.hydrate(db)
+        return self
+
 # functions below this point have not been tested
 
     @classmethod

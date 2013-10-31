@@ -148,3 +148,29 @@ class TestSchematicDocument(testutil.TempDatabaseMixin, unittest.TestCase):
 
         fromdb.user.reload(self.db)
         assert fromdb.user.password == su.user.password
+
+    def test_hydrate(self):
+        class User3(User2):
+            class Options:
+                roles = {
+                    "embedded": (blacklist("_password") +
+                        SchematicsDocument.Options.roles['embedded']),
+                }
+        class SuperUser(SchematicsDocument):
+            user = EmbeddedDocType(User3)
+
+        u = User3(dict(name="Ryan", password="ChangeMe"))
+        assert 'id' not in u.serialize()
+        u.store(self.db)
+
+        su = SuperUser()
+        su.user = u
+        su.store(self.db)
+        assert isinstance(su.user, User3)
+
+        fromdb = SuperUser.load(self.db, su.id)
+        assert fromdb.user.password != su.user.password
+        fromdb.hydrate(self.db)
+        assert fromdb.user.password == su.user.password
+
+        
