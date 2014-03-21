@@ -30,8 +30,9 @@ setup(
     name='couchdb-schematics',
     license='BSD',
     version='1.0.0',
+    author='Ryan Olson',
+    author_email='rmolson@gmail.com',
     description='',
-    author=u'Ryan Olson',
     url='http://github.com/ryanolson/couchdb-schematics',
     packages=['couchdb_schematics'],
     classifiers=[
