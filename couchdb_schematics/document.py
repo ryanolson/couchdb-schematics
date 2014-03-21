@@ -143,7 +143,7 @@ class Document(Model):
         """
         if validate:
             self.validate()
-        self._id, self._rev = database.save(self.to_native(role=role))
+        self._id, self._rev = database.save(self.to_primitive(role=role))
         return self
 
     def delete_instance(self, database):
