@@ -66,10 +66,8 @@ assert u2.doc_type == 'UserDocument'
 ## Installation
 
 ```bash
-$ pip install git+https://github.com/ryanolson/couchdb-schematics.git
+$ pip install couchdb-schematics
 ```
-
-It's helpful to have setuptools >= 0.8 installed otherwise you migth not get the dependencies quite right.
 
 ## Tests
 

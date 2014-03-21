@@ -146,6 +146,11 @@ class Document(Model):
         self._id, self._rev = database.save(self.to_native(role=role))
         return self
 
+    def delete_instance(self, database):
+        if self._id is None:
+            raise ValueError("no valid document id")
+        del database[self.id]
+
     def reload(self, database):
         """
         This function reloads/rehydrates the Document Model.  This
