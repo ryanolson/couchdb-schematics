@@ -29,7 +29,7 @@ test_requirements=[
 setup(
     name='couchdb-schematics',
     license='BSD',
-    version='1.1.0',
+    version='1.1.1',
     author='Ryan Olson',
     author_email='rmolson@gmail.com',
     description='',
