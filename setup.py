@@ -29,10 +29,9 @@ test_requirements=[
 setup(
     name='couchdb-schematics',
     license='BSD',
-    version='0.3.0',
+    version='1.0.0',
     description='',
-    author=u'',
-    author_email='',
+    author=u'Ryan Olson',
     url='http://github.com/ryanolson/couchdb-schematics',
     packages=['couchdb_schematics'],
     classifiers=[
