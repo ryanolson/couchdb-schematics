@@ -1,4 +1,6 @@
 import unittest
+import pytest
+import couchdb
 from couchdb.tests import testutil
 
 from schematics.models import Model
@@ -6,6 +8,7 @@ from schematics.transforms import blacklist
 from schematics.types import StringType, MD5Type
 from couchdb_schematics.document import SchematicsDocument
 from couchdb_schematics.document import EmbeddedDocType
+
 
 class User1Model(Model):
     name = StringType()
@@ -65,6 +68,16 @@ class TestSchematicDocument(testutil.TempDatabaseMixin, unittest.TestCase):
 
         u4 = User1.load(self.db, u.id)
         assert u.name == u4.name
+
+        u4.delete_instance(self.db)
+        fromdb = self.db.get(u.id)
+        assert fromdb is None
+
+        # try deleting a document that does not exist
+        with pytest.raises(couchdb.ResourceNotFound):
+            del self.db[u.id]
+        with pytest.raises(couchdb.ResourceNotFound):
+            u4.delete_instance(self.db)
 
     def test_model_with_serialized_name(self):
         u = User2()
