@@ -29,7 +29,7 @@ test_requirements=[
 setup(
     name='couchdb-schematics',
     license='BSD',
-    version='0.2.1-alpha',
+    version='0.3.0',
     description='',
     author=u'',
     author_email='',
@@ -45,10 +45,9 @@ setup(
     tests_require=test_requirements,
     install_requires=[
         'setuptools>=0.8',
-        'schematics>=0.10-1',
-        'CouchDB'
+        'CouchDB',
+        'schematics',
     ] + test_requirements,
     dependency_links = [
-        'https://github.com/ryanolson/schematics/tarball/master#egg=schematics-0.10-1'
     ]
 )
